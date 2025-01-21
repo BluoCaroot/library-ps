@@ -25,7 +25,7 @@ int binary_exponentiation_iterative(int base, int power)
     {
         if (power % 2 == 1)
         {
-            result = result * base;
+            result = result * base; 
         }
         base = base * base;
         power = power / 2;

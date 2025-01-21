@@ -12,7 +12,7 @@ vector<int> dijkstra(int start, int end)
     while (!pq.empty())
     {
         int node = pq.top().second;
-        int node_dist = pq.top().first;
+        int node_dist = -pq.top().first;
         pq.pop();
         if (node_dist > dist[node])
             continue;

@@ -18,7 +18,7 @@ int solve_knapsack(vector<int> &weights, vector<int> &values, int w) {
     int n = weights.size();
     vector<vector<int>>dp(n + 1, vector<int>(w + 1, 0));
     for (int i = 1; i <= n; ++i) {
-        for (int j = 0; j <= w; ++j) {
+        for (int j = w; j >= 0; --j) {
             if (weights[i - 1] <= j)
                 dp[i][j] = max(dp[i][j], dp[i - 1][j - weights[i - 1]] + values[i - 1]);
             else

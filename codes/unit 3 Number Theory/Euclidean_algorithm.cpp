@@ -10,7 +10,6 @@ int gcd_recursive(int a, int b)
     }
     return gcd_recursive(b, a % b);
 }
-
 int gcd_iterative(int a, int b)
 {
     while (b != 0)
@@ -34,4 +33,15 @@ int extended_euclidean_algorithm(int a, int b, int &x, int &y)
     x = y1;
     y = x1 - y1 * (a / b);
     return d;
+}
+
+
+double area(const vector<point>& fig) {
+    double res = 0;
+    for (unsigned i = 0; i < fig.size(); i++) {
+        point p = i ? fig[i - 1] : fig.back();
+        point q = fig[i];
+        res += (p.x - q.x) * (p.y + q.y);
+    }
+    return fabs(res) / 2;
 }
