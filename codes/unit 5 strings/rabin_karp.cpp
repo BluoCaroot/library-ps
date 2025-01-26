@@ -1,36 +1,41 @@
 #include <bits/stdc++.h>
 using namespace std;
-
+long long modpow(long long a, long long b, long long mod) {
+        long long res = 1;
+        while (b > 0) {
+            if (b & 1)
+                res = res * a % mod;
+            a = a * a % mod;
+            b >>= 1;
+        }
+        return res;
+    }
 int rabin_karp(string text, string pattern)
 {
-    int n = text.size();
-    int m = pattern.size();
-    int p = 31;
-    int mod = 1e9 + 9;
-    vector<long long> p_pow(max(n, m));
-    p_pow[0] = 1;
-    for (int i = 1; i < (int)p_pow.size(); i++)
+    int n = text.length(), m = pattern.length();
+    const int p = 31;
+    const int MOD = 1e9 + 9;
+    int i = 0, j = m - 1;
+    int h = 0, h_t = 0;
+    while (i < m)
     {
-        p_pow[i] = (p_pow[i - 1] * p) % mod;
+        h_t = (h_t * p + text[i]) % MOD;
+        h = (h * p + pattern[i]) % MOD;
+        i++;
     }
-    vector<long long> h(n + 1, 0);
-    for (int i = 0; i < n; i++)
+    i = 0;
+    int ans = 0;
+    while (i + m <= n)
     {
-        h[i + 1] = (h[i] + (text[i] - 'a' + 1) * p_pow[i]) % mod;
-    }
-    long long h_s = 0;
-    for (int i = 0; i < m; i++)
-    {
-        h_s = (h_s + (pattern[i] - 'a' + 1) * p_pow[i]) % mod;
-    }
-    vector<int> occurences;
-    for (int i = 0; i + m - 1 < n; i++)
-    {
-        long long cur_h = (h[i + m] + mod - h[i]) % mod;
-        if (cur_h == h_s * p_pow[i] % mod)
+        if (j != i + m - 1)
         {
-            occurences.push_back(i);
+            h_t = (h_t * p + text[j + 1]) % MOD;
+            j++;
         }
+        if (h_t == h)
+            ans++;
+        h_t = (h_t - text[i] * modpow(p, m - 1, MOD) % MOD + MOD) % MOD;
+        i++;
     }
-    return occurences.size();
+    return ans;
 }
